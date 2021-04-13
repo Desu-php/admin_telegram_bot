@@ -231,5 +231,5 @@ return [
         'DataTables' =>\Yajra\DataTables\Facades\DataTables::class,
 
     ],
-
+    'bot_domen' => env('BOT_DOMEN', '')
 ];

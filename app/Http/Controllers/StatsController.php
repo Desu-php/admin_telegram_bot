@@ -35,7 +35,7 @@ class StatsController extends Controller
         return DataTables::eloquent($datas)
             ->editColumn('avatar', function ($data) {
                 if (!empty($data)) {
-                    return '<img src="' . $data->avatar . '" style="height:50px;width:50px" alt="' . $data->username . '" />';
+                    return '<img src="' .Config()->get('app.bot_domen').'/'.$data->avatar . '" style="height:50px;width:50px" alt="' . $data->username . '" />';
                 }
                 return '';
             })
