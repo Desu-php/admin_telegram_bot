@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::group(['prefix' => '/', 'middleware' => ['auth']], function (){
+
     Route::get('/', 'MainController@index')->name('main');
 
     Route::get('/users/ajax/get', 'UserController@indexAjax')->name('users.indexAjax');
