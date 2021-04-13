@@ -40,7 +40,7 @@ class StatsController extends Controller
                 return '';
             })
             ->editColumn('created_at', function ($data) {
-                return $data->created_at->format('d.m.Y h:i:s');
+                return $data->created_at->format('d.m.Y H:i:s');
             })
             ->rawColumns(['avatar'])
             ->escapeColumns(null)
