@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Advertising;
-use App\Models\Channel;
 use App\Models\MainChannel;
-use App\Models\User;
+use App\Models\TelegramUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
-class AdvertisingController extends Controller
+class MainChannelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,22 +18,18 @@ class AdvertisingController extends Controller
     public function index()
     {
         //
-        return view('advertisings.index');
+        return view('main_channels.index');
     }
-
 
     public function indexAjax(Request $request)
     {
-
-        $datas = Advertising::with('channel');
+        //
+        $datas = MainChannel::query();
         return DataTables::eloquent($datas)
             ->addColumn('action', function ($data) {
                 $btns = '<a href="javascript:void(0)"  onclick="Delete(' . $data->id . ')" class="btn btn-danger"><i class="fa fa-trash-o"></i> Удалить</a>';
-                $btns .= ' <a href="' . url('advertisings/' . $data->id . '/edit') . '"  class="btn btn-warning"><i class="fa fa-pencil-square-o"></i> Изменить</a>';
+                $btns .= ' <a href="' . url('main_channels/' . $data->id . '/edit') . '"  class="btn btn-warning"><i class="fa fa-pencil-square-o"></i> Изменить</a>';
                 return $btns;
-            })
-            ->addColumn('range_time', function ($data) {
-                return $data->start_date . ' - ' . $data->end_date;
             })
             ->escapeColumns(null)
             ->make(true);
@@ -49,9 +43,7 @@ class AdvertisingController extends Controller
     public function create()
     {
         //
-        $channels = Channel::all();
-        $mainChannels = MainChannel::all();
-        return view('advertisings.create', compact('channels','mainChannels'));
+        return view('main_channels.create');
     }
 
     /**
@@ -64,11 +56,8 @@ class AdvertisingController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'channel' => 'required|exists:channels,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'main_channel' => 'required|exists:main_channels,id',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'url' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()){
@@ -78,17 +67,11 @@ class AdvertisingController extends Controller
             ], 400);
         }
 
-        Advertising::create([
-            'channel_id' => $request->channel,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'main_channel_id' => $request->main_channel,
-            'name' => $request->name,
-        ]);
+        MainChannel::create($request->all());
 
         return Response()->json([
             'success' => true,
-            'message' => 'Реклама добавлен'
+            'message' => 'Канал добавлен'
         ]);
     }
 
@@ -112,15 +95,8 @@ class AdvertisingController extends Controller
     public function edit($id)
     {
         //
-        $channels = Channel::all();
-        $mainChannels = MainChannel::all();
-        $data = Advertising::find($id);
-
-        if (empty($data)){
-            abort(404);
-        }
-
-        return view('advertisings.edit', compact('data', 'channels', 'mainChannels'));
+       $data = MainChannel::find($id);
+       return view('main_channels.edit', compact('data'));
     }
 
     /**
@@ -133,13 +109,9 @@ class AdvertisingController extends Controller
     public function update(Request $request, $id)
     {
         //
-
         $validator = Validator::make($request->all(), [
-            'channel' => 'required|exists:channels,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'main_channel' => 'required|exists:main_channels,id',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'url' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()){
@@ -149,17 +121,15 @@ class AdvertisingController extends Controller
             ], 400);
         }
 
-        Advertising::where('id', $id)->update([
-            'channel_id' => $request->channel,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'main_channel_id' => $request->main_channel,
+        MainChannel::where('id', $id)
+        ->update([
             'name' => $request->name,
+            'url' => $request->url
         ]);
 
         return Response()->json([
             'success' => true,
-            'message' => 'Реклама обновлена'
+            'message' => 'Канал обновлен'
         ]);
     }
 
@@ -172,7 +142,7 @@ class AdvertisingController extends Controller
     public function destroy($id)
     {
         //
-        $data = Advertising::destroy($id);
+        $data = MainChannel::destroy($id);
         return Response()->json($data);
     }
 }

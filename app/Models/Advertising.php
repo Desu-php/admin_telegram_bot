@@ -13,7 +13,9 @@ class Advertising extends Model
         'channel_id',
         'start_date',
         'end_date',
-        'status'
+        'status',
+        'main_channel_id',
+        'name'
     ];
     public function channel()
     {
@@ -23,5 +25,10 @@ class Advertising extends Model
     public function telegramUsers()
     {
         return $this->hasMany(TelegramUser::class);
+    }
+
+    public function mainChannel()
+    {
+        return $this->belongsTo(MainChannel::class);
     }
 }

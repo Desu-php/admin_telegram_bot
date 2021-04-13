@@ -17,6 +17,9 @@ class CreateAdvertisingsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('channel_id');
             $table->foreign('channel_id')->references('id')->on('channels')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('main_channel_id');
+            $table->foreign('main_channel_id')->references('id')->on('main_channels')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('name');
             $table->enum('status', ['on', 'off'])->default('on');
             $table->dateTime('start_date');
             $table->dateTime('end_date');

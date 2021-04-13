@@ -2,11 +2,11 @@
 @section('content')
     <div class="main-content-container container-fluid px-4">
         <!-- Page Header -->
-        @include('partials.header', ['title' => 'Статистика'])
+        @include('partials.header', ['title' => 'Статистика канала '.$mainChannel->name])
         <div class="col">
             <div class="card card-small mb-4">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h6 class="m-0">Статистика</h6>
+                    <h6 class="m-0">Статистика канала {{$mainChannel->name}}</h6>
                 </div>
                 <div class="card-body p-2 pb-3 text-center table-responsive">
                     <table class="table mb-0" id="dataTable">
@@ -54,5 +54,6 @@
             { data: "advertisings", name: 'advertisings'},
             { data: "created_at", name: 'created_at'},
         ]
+        var url = "{{route('stats.indexAjax', 'channel='.request()->get('channel'))}}"
     </script>
 @endpush

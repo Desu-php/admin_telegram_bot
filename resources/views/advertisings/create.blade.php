@@ -8,6 +8,18 @@
                 <div class="card-body">
                     <form action="{{route('advertisings.store')}}" method="post" id="added_form">
                         <div class="form-group">
+                            <label for="main_channel">Мой канал</label>
+                            <select name="main_channel" class="form-control" id="main_channel" placeholder="Мой канал" required>
+                                @foreach($mainChannels as $channel)
+                                    <option value="{{$channel->id}}">{{$channel->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Название</label>
+                            <input type="text" class="form-control" placeholder="Название" name="name" id="name" required>
+                        </div>
+                        <div class="form-group">
                             <label for="channel">Канал</label>
                             <select name="channel" class="form-control "  style="width: 100%;" id="channel" required>
                                 @foreach($channels as $channel)

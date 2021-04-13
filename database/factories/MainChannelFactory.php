@@ -2,19 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Advertising;
-use App\Models\Channel;
 use App\Models\MainChannel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AdvertisingFactory extends Factory
+class MainChannelFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Advertising::class;
+    protected $model = MainChannel::class;
 
     /**
      * Define the model's default state.
@@ -25,11 +23,8 @@ class AdvertisingFactory extends Factory
     {
         return [
             //
-            'main_channel_id' => MainChannel::all()->random(),
-            'channel_id' => Channel::all()->random(),
             'name' => $this->faker->name,
-            'start_date' => $this->faker->dateTime,
-            'end_date' => $this->faker->dateTime,
+            'url' => $this->faker->url
         ];
     }
 }

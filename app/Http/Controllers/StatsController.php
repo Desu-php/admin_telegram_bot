@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertising;
+use App\Models\MainChannel;
 use App\Models\TelegramUser;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -14,26 +15,31 @@ class StatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $mainChannel = MainChannel::find($request->channel);
 
-        return view('stats.index');
+        if (empty($mainChannel)) {
+            abort(404);
+        }
+
+        return view('stats.index', compact('mainChannel'));
 
     }
 
-    public function indexAjax(Request  $request)
+    public function indexAjax(Request $request)
     {
         //
-        $datas = TelegramUser::query();
+        $datas = TelegramUser::where('main_channel_id', $request->channel);
         return DataTables::eloquent($datas)
-            ->editColumn('avatar', function ($data){
-                if (!empty($data)){
-                    return '<img src="'.$data->avatar.'" style="height:50px;width:50px" alt="'.$data->username.'" />';
+            ->editColumn('avatar', function ($data) {
+                if (!empty($data)) {
+                    return '<img src="' . $data->avatar . '" style="height:50px;width:50px" alt="' . $data->username . '" />';
                 }
-                return  '';
+                return '';
             })
-            ->editColumn('created_at', function ($data){
+            ->editColumn('created_at', function ($data) {
                 return $data->created_at->format('d.m.Y h:i:s');
             })
             ->rawColumns(['avatar'])
@@ -54,7 +60,7 @@ class StatsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,7 +71,7 @@ class StatsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -76,7 +82,7 @@ class StatsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -87,8 +93,8 @@ class StatsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -99,7 +105,7 @@ class StatsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

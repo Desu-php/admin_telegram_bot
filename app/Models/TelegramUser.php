@@ -9,4 +9,9 @@ class TelegramUser extends Model
 {
     use HasFactory;
 
+    public function mainChannel()
+    {
+        return $this->belongsTo(MainChannel::class);
+    }
+
 }

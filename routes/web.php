@@ -26,6 +26,9 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function (){
     Route::resource('/stats', 'StatsController');
     Route::get('/stats/ajax/get', 'StatsController@indexAjax')->name('stats.indexAjax');
 
+    Route::resource('/main_channels', 'MainChannelController');
+    Route::get('/main_channels/ajax/get', 'MainChannelController@indexAjax')->name('main_channels.indexAjax');
+
 });
 
 
