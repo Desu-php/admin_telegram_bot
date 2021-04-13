@@ -6,7 +6,7 @@
         <div class="col">
             <div class="card card-small mb-4">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h6 class="m-0">Пользователи админки</h6>
+                    <h6 class="m-0">Список реклам</h6>
                     <a href="{{route('advertisings.create')}}" class="btn btn-success" >Добавить</a>
                 </div>
                 <div class="card-body p-2 pb-3 text-center table-responsive">
