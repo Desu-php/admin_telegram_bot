@@ -16,6 +16,8 @@ class CreateTelegramUsersTable extends Migration
         Schema::create('telegram_users', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
+            $table->unsignedBigInteger('main_channel_id');
+            $table->foreign('main_channel_id')->references('id')->on('main_channels')->onUpdate('cascade')->onDelete('cascade');
             $table->string('username');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
