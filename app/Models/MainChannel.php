@@ -12,5 +12,8 @@ class MainChannel extends Model
     protected $fillable = [
         'name',
         'url',
+        'user_url',
+        'avatar',
+        'status'
     ];
 }

@@ -8,12 +8,8 @@
                 <div class="card-body">
                     <form action="{{route('main_channels.store')}}" method="post" id="added_form">
                         <div class="form-group">
-                            <label for="name">Название канала</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Название" value="" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="url">Ссылка <span class="text-danger">Только для публичных каналов</span></label>
-                            <input type="text" class="form-control" id="url" name="url" placeholder="Ссылка" value="">
+                            <label for="url">Ссылка</label>
+                            <input type="text" class="form-control" id="url" name="url" placeholder="Ссылка" value="" required>
                         </div>
                         <button type="submit" class="btn btn-success">Добавить</button>
                     </form>

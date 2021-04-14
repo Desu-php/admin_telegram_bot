@@ -17,6 +17,9 @@ class CreateMainChannelsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('url')->nullable();
+            $table->string('user_url');
+            $table->string('avatar')->nullable();
+            $table->enum('status', ['private', 'public']);
             $table->timestamps();
         });
     }

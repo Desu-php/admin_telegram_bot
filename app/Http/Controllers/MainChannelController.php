@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\MainChannel;
 use App\Models\TelegramUser;
+use App\Traits\DownloadImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\HttpClient\HttpClient;
 use Yajra\DataTables\Facades\DataTables;
 
 class MainChannelController extends Controller
 {
+    use DownloadImage;
     /**
      * Display a listing of the resource.
      *
@@ -30,6 +34,14 @@ class MainChannelController extends Controller
                 $btns = '<a href="javascript:void(0)"  onclick="Delete(' . $data->id . ')" class="btn btn-danger"><i class="fa fa-trash-o"></i> Удалить</a>';
                 $btns .= ' <a href="' . url('main_channels/' . $data->id . '/edit') . '"  class="btn btn-warning"><i class="fa fa-pencil-square-o"></i> Изменить</a>';
                 return $btns;
+            })
+            ->editColumn('id', function ($data){
+                if (!is_null($data->avatar)){
+                    return '<img src="'.asset($data->avatar).'" style="width:50px; height:50px"> #'.$data->id;
+                }else{
+                    $colors =  ['primary', 'danger', 'secondary', 'warning', 'success', 'dark'];
+                    return  '<div style="width: 50px; height: 50px" class="rounded-circle bg-"'.$colors[rand(0, count($colors) - 1)].'></div> #'.$data->id;
+                }
             })
             ->escapeColumns(null)
             ->make(true);
@@ -56,8 +68,7 @@ class MainChannelController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'url' => 'nullable|string|max:255',
+            'url' => 'required|url',
         ]);
 
         if ($validator->fails()){
@@ -67,7 +78,41 @@ class MainChannelController extends Controller
             ], 400);
         }
 
-        MainChannel::create($request->all());
+        $browser = new HttpBrowser(HttpClient::create(['verify_peer' => false, 'verify_host' => false]));
+        $crawler =  $browser->request('GET', $request->url);
+
+        if ($crawler->filter('.tgme_page_title')->count() == 0){
+            return Response()->json([
+                'success'=> false,
+                'message' => 'Канал не найден'
+            ], 404);
+        }
+
+        if (strpos($request->url,'joinchat')){
+            $status = 'private';
+            $name = $crawler->filter('.tgme_page_title')->count();
+            $url = null;
+        }else{
+            $url = $request->url;
+            $status = 'public';
+            $name = $crawler->filter('.tgme_page_title')->text();
+        }
+
+        $image = $crawler->filter('.tgme_page_photo_image');
+
+        if ($image->count() > 0){
+            $avatar = $this->downloadImage($image->attr('src'));
+        }else{
+            $avatar = null;
+        }
+
+        MainChannel::create([
+            'url' => $url,
+            'name' => $name,
+            'avatar' => $avatar,
+            'user_url' => $request->url,
+            'status' => $status
+        ]);
 
         return Response()->json([
             'success' => true,
