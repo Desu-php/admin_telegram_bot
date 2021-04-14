@@ -161,8 +161,7 @@ class MainChannelController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'url' => 'nullable|string|max:255',
+            'user_url' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()){
@@ -172,10 +171,19 @@ class MainChannelController extends Controller
             ], 400);
         }
 
+        if (strpos($request->user_url,'joinchat')){
+            $status = 'private';
+            $url = null;
+        }else{
+            $url = $request->user_url;
+            $status = 'public';
+        }
+
         MainChannel::where('id', $id)
         ->update([
-            'name' => $request->name,
-            'url' => $request->url
+            'url' => $url,
+            'status' => $status,
+            'user_url' => $request->user_url
         ]);
 
         return Response()->json([

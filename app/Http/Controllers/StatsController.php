@@ -34,10 +34,25 @@ class StatsController extends Controller
         $datas = TelegramUser::where('main_channel_id', $request->channel);
         return DataTables::eloquent($datas)
             ->editColumn('avatar', function ($data) {
-                if (!empty($data)) {
-                    return '<img src="' .Config()->get('app.bot_domen').'/'.$data->avatar . '" style="height:50px;width:50px" alt="' . $data->username . '" />';
+                if ($data->avatar != "None" || empty($data->avatar)){
+                    return '<img class="rounded-circle" src="'.asset($data->avatar).'" style="width:50px; height:50px">';
+                }else{
+                    if ($data->first_name != 'None'){
+                        $name = $data->first_name;
+                    }elseif ($data->last_name != 'None'){
+                        $name = $data->last_name;
+                    }else {
+                        $name = $data->username;
+                    }
+                    $colors =  ['primary', 'danger', 'secondary', 'warning', 'success', 'dark'];
+                    return  '
+                    <div class="d-flex justify-content-center align-items-center m-0">
+                  <div style="width: 50px; height: 50px" class="text-uppercase d-flex justify-content-center align-items-center rounded-circle h3 text-white-50 bg-'.$colors[rand(0, count($colors) - 1)].'">
+                  '.mb_substr($name, 0,1).'
+</div>
+                    </div>';
+
                 }
-                return '';
             })
             ->editColumn('created_at', function ($data) {
                 return $data->created_at->format('d.m.Y H:i:s');

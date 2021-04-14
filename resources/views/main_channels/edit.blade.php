@@ -6,14 +6,10 @@
         <div class="col-md-6 col-sm-12 mb-4">
             <div class="stats-small stats-small--1 card card-small">
                 <div class="card-body">
-                    <form action="{{route('main_channels.update', $data->id)}}" method="put" id="added_form">
+                    <form action="{{route('main_channels.update', $data->id)}}" method="put" id="added_form" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="name">Название канала</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Название" value="{{$data->name}}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="url">Ссылка <span class="text-danger">Только для публичных каналов</span></label>
-                            <input type="text" class="form-control" id="url" name="url" placeholder="Ссылка" value="{{$data->url}}">
+                            <label for="user_url">Ссылка</label>
+                            <input type="text" class="form-control" id="user_url" name="user_url" placeholder="Ссылка" value="{{$data->user_url}}" required>
                         </div>
                         <button type="submit" class="btn btn-success">Добавить</button>
                     </form>
