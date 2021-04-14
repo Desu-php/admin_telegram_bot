@@ -35,7 +35,7 @@ class StatsController extends Controller
         return DataTables::eloquent($datas)
             ->editColumn('avatar', function ($data) {
                 if ($data->avatar != "None" || empty($data->avatar)){
-                    return '<img class="rounded-circle" src="'.asset($data->avatar).'" style="width:50px; height:50px">';
+                    return '<img class="rounded-circle" src="'.Config()->get('app.bot_domen').'/'.$data->avatar.'" style="width:50px; height:50px">';
                 }else{
                     if ($data->first_name != 'None'){
                         $name = $data->first_name;
