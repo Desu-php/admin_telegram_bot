@@ -61,10 +61,16 @@ $.ajaxSetup({
     }
 });
 
+if (typeof(orderColumn) === "undefined"){
+    var orderColumn = 0
+}
+
 if (typeof (columns) !== "undefined") {
     $(function () {
 
         var table = $('#dataTable').DataTable({
+            order:[[orderColumn, "asc"]],
+            responsive:true,
             ajax: url,
             searching: true,
             ordering: true,
@@ -82,8 +88,12 @@ if (typeof (columns) !== "undefined") {
             }
         });
 
-        $(document).on('click','.filtered', function (e) {
-            e.stopPropagation()
+        $(document).on('click','.filtered', function (event) {
+            event.stopPropagation()
+        });
+
+        $('.filtered').click(function (event) {
+            event.stopPropagation()
         });
 
         $(document).on('input change','.filtered',function (){

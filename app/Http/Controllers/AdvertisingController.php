@@ -27,7 +27,7 @@ class AdvertisingController extends Controller
     public function indexAjax(Request $request)
     {
 
-        $datas = Advertising::with('channel');
+        $datas = Advertising::query();
         return DataTables::eloquent($datas)
             ->addColumn('action', function ($data) {
                 $btns = '<a href="javascript:void(0)"  onclick="Delete(' . $data->id . ')" class="btn btn-danger"><i class="fa fa-trash-o"></i> Удалить</a>';
@@ -49,9 +49,8 @@ class AdvertisingController extends Controller
     public function create()
     {
         //
-        $channels = Channel::all();
         $mainChannels = MainChannel::all();
-        return view('advertisings.create', compact('channels','mainChannels'));
+        return view('advertisings.create', compact('mainChannels'));
     }
 
     /**
@@ -64,7 +63,7 @@ class AdvertisingController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'channel' => 'required|exists:channels,id',
+            'channel_name' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'main_channel' => 'required|exists:main_channels,id',
@@ -79,7 +78,7 @@ class AdvertisingController extends Controller
         }
 
         Advertising::create([
-            'channel_id' => $request->channel,
+            'channel_name' => $request->channel_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'main_channel_id' => $request->main_channel,
@@ -88,7 +87,7 @@ class AdvertisingController extends Controller
 
         return Response()->json([
             'success' => true,
-            'message' => 'Реклама добавлен'
+            'message' => 'Реклама добавлена'
         ]);
     }
 
@@ -112,7 +111,6 @@ class AdvertisingController extends Controller
     public function edit($id)
     {
         //
-        $channels = Channel::all();
         $mainChannels = MainChannel::all();
         $data = Advertising::find($id);
 
@@ -120,7 +118,7 @@ class AdvertisingController extends Controller
             abort(404);
         }
 
-        return view('advertisings.edit', compact('data', 'channels', 'mainChannels'));
+        return view('advertisings.edit', compact('data',  'mainChannels'));
     }
 
     /**
@@ -135,7 +133,7 @@ class AdvertisingController extends Controller
         //
 
         $validator = Validator::make($request->all(), [
-            'channel' => 'required|exists:channels,id',
+            'channel_name' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'main_channel' => 'required|exists:main_channels,id',
@@ -150,7 +148,7 @@ class AdvertisingController extends Controller
         }
 
         Advertising::where('id', $id)->update([
-            'channel_id' => $request->channel,
+            'channel_name' => $request->channel_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'main_channel_id' => $request->main_channel,

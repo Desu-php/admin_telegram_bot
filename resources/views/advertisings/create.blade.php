@@ -20,12 +20,8 @@
                             <input type="text" class="form-control" placeholder="Название" name="name" id="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="channel">Канал</label>
-                            <select name="channel" class="form-control "  style="width: 100%;" id="channel" required>
-                                @foreach($channels as $channel)
-                                    <option value="{{$channel->id}}">{{$channel->name}}</option>
-                                @endforeach
-                            </select>
+                            <label for="channel_name">Название канала</label>
+                            <input type="text" class="form-control" placeholder="Название канала" name="channel_name" id="channel_name" required>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">

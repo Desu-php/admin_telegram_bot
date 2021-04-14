@@ -33,7 +33,7 @@ class TelegramUserFactory extends Factory
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'avatar' => $this->faker->firstName,
-            'advertisings' => Channel::all()->random()->name,
+            'advertisings' => $this->faker->name,
             'username' => $this->faker->userName,
 
         ];

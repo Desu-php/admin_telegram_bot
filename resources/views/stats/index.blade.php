@@ -55,5 +55,6 @@
             { data: "created_at", name: 'created_at'},
         ]
         var url = "{{route('stats.indexAjax', 'channel='.request()->get('channel'))}}"
+
     </script>
 @endpush

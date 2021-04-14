@@ -10,17 +10,13 @@ class Advertising extends Model
     use HasFactory;
 
     protected $fillable = [
-        'channel_id',
+        'channel_name',
         'start_date',
         'end_date',
         'status',
         'main_channel_id',
         'name'
     ];
-    public function channel()
-    {
-        return $this->belongsTo(Channel::class);
-    }
 
     public function telegramUsers()
     {

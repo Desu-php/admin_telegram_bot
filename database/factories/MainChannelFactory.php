@@ -24,7 +24,10 @@ class MainChannelFactory extends Factory
         return [
             //
             'name' => $this->faker->name,
-            'url' => $this->faker->url
+            'url' => $this->faker->url,
+            'user_url' => $this->faker->url,
+            'avatar' => null,
+            'status' => 'public'
         ];
     }
 }

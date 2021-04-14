@@ -27,16 +27,10 @@
                                    required>
                         </div>
                         <div class="form-group">
-                            <label for="channel">Канал</label>
-                            <select name="channel" class="form-control " style="width: 100%;" id="channel" required>
-                                @foreach($channels as $channel)
-                                    @if($data->channel_id == $channel->id)
-                                        <option value="{{$channel->id}}" selected>{{$channel->name}}</option>
-                                    @else
-                                        <option value="{{$channel->id}}">{{$channel->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <label for="channel_name">Название канала</label>
+                            <input type="text" class="form-control" placeholder="Название канала" name="channel_name" id="channel_name"
+                                   value="{{$data->channel_name}}"
+                                   required>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">

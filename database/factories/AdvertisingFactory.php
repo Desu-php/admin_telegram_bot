@@ -26,7 +26,7 @@ class AdvertisingFactory extends Factory
         return [
             //
             'main_channel_id' => MainChannel::all()->random(),
-            'channel_id' => Channel::all()->random(),
+            'channel_name' => $this->faker->name,
             'name' => $this->faker->name,
             'start_date' => $this->faker->dateTime,
             'end_date' => $this->faker->dateTime,

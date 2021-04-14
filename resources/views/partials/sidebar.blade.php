@@ -66,13 +66,13 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {{(request()->is('channels') || request()->is('channels/*'))?'active':''}}"
-                   href="{{route('channels.create')}}">
-                    <i class="fas fa-plus"></i>
-                    <span>Добавить канал</span>
-                </a>
-            </li>
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link {{(request()->is('channels') || request()->is('channels/*'))?'active':''}}"--}}
+{{--                   href="{{route('channels.create')}}">--}}
+{{--                    <i class="fas fa-plus"></i>--}}
+{{--                    <span>Добавить канал</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
 
         </ul>
     </div>

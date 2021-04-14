@@ -33,7 +33,7 @@
         var columns =  [
             { data: "id", name: 'id'},
             { data: "name", name: 'name'},
-            { data: "channel.name", name: 'channel.name'},
+            { data: "channel_name", name: 'channel_name'},
             { data: "range_time", name: 'start_date'},
             { data: "end_date", name: 'end_date', visible:false},
             { data: 'action', name: 'action', orderable: false, searchable: false, width:400}

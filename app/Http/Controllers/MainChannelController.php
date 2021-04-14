@@ -35,12 +35,18 @@ class MainChannelController extends Controller
                 $btns .= ' <a href="' . url('main_channels/' . $data->id . '/edit') . '"  class="btn btn-warning"><i class="fa fa-pencil-square-o"></i> Изменить</a>';
                 return $btns;
             })
-            ->editColumn('id', function ($data){
+            ->editColumn('avatar', function ($data){
                 if (!is_null($data->avatar)){
-                    return '<img src="'.asset($data->avatar).'" style="width:50px; height:50px"> #'.$data->id;
+                    return '<img class="rounded-circle" src="'.asset($data->avatar).'" style="width:50px; height:50px">';
                 }else{
                     $colors =  ['primary', 'danger', 'secondary', 'warning', 'success', 'dark'];
-                    return  '<div style="width: 50px; height: 50px" class="rounded-circle bg-"'.$colors[rand(0, count($colors) - 1)].'></div> #'.$data->id;
+                    return  '
+                    <div class="d-flex justify-content-center align-items-center m-0">
+                  <div style="width: 50px; height: 50px" class="text-uppercase d-flex justify-content-center align-items-center rounded-circle h3 text-white-50 bg-'.$colors[rand(0, count($colors) - 1)].'">
+                  '.mb_substr($data->name, 0,1).'
+</div>
+                    </div>';
+
                 }
             })
             ->escapeColumns(null)
@@ -90,7 +96,7 @@ class MainChannelController extends Controller
 
         if (strpos($request->url,'joinchat')){
             $status = 'private';
-            $name = $crawler->filter('.tgme_page_title')->count();
+            $name = $crawler->filter('.tgme_page_title')->text();
             $url = null;
         }else{
             $url = $request->url;

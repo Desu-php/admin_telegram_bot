@@ -13,6 +13,7 @@
                     <table class="table mb-0" id="dataTable">
                         <thead class="bg-light">
                         <tr>
+                            <th scope="col" class="border-0">Аватар</th>
                             <th scope="col" class="border-0">#</th>
                             <th scope="col" class="border-0">Название</th>
                             <th scope="col" class="border-0">Ссылка</th>
@@ -28,10 +29,12 @@
 @push('scripts')
     <script>
         var columns =  [
-            { data: "id", name: 'id'},
+            { data: "avatar", name: 'avatar'},
+            { data: "id", name: 'id', orderable:true},
             { data: "name", name: 'name'},
-            { data: "url", name: 'url'},
+            { data: "user_url", name: 'user_url'},
             { data: 'action', name: 'action', orderable: false, searchable: false, width:400}
         ]
+        var orderColumn = 1
     </script>
 @endpush

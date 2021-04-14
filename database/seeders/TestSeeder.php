@@ -18,7 +18,6 @@ class TestSeeder extends Seeder
     public function run()
     {
         //
-        Channel::factory(100)->create();
         MainChannel::factory(2)->create();
         Advertising::factory(100)->create();
         TelegramUser::factory(100)->create();
