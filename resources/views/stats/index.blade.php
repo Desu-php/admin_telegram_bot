@@ -25,6 +25,9 @@
                             <th scope="col" class="border-0">Аватарка
                                 <input class="form-control filtered" data-column="4">
                             </th>
+                            <th scope="col" class="border-0">ID
+                                <input class="form-control filtered" data-column="4">
+                            </th>
                             <th scope="col" class="border-0">Статус
                                 <input class="form-control filtered" data-column="5">
                             </th>
@@ -50,6 +53,7 @@
             { data: "first_name", name: 'first_name'},
             { data: "last_name", name: 'last_name'},
             { data: "avatar", name: 'avatar'},
+            { data: "user_id", name: 'user_id'},
             { data: "status", name: 'status'},
             { data: "advertisings", name: 'advertisings'},
             { data: "created_at", name: 'created_at'},
