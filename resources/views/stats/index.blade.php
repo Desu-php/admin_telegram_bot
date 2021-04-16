@@ -26,16 +26,16 @@
                                 <input class="form-control filtered" data-column="4">
                             </th>
                             <th scope="col" class="border-0">ID
-                                <input class="form-control filtered" data-column="4">
-                            </th>
-                            <th scope="col" class="border-0">Статус
                                 <input class="form-control filtered" data-column="5">
                             </th>
-                            <th scope="col" class="border-0">Реклама
+                            <th scope="col" class="border-0">Статус
                                 <input class="form-control filtered" data-column="6">
                             </th>
-                            <th scope="col" class="border-0">Дата и время
+                            <th scope="col" class="border-0">Реклама
                                 <input class="form-control filtered" data-column="7">
+                            </th>
+                            <th scope="col" class="border-0">Дата и время
+                                <input class="form-control filtered" data-column="8">
                             </th>
                         </tr>
                         </thead>
@@ -59,6 +59,7 @@
             { data: "created_at", name: 'created_at'},
         ]
         var url = "{{route('stats.indexAjax', 'channel='.request()->get('channel'))}}"
-
+        var orderColumn = 8
+        var order = "desc"
     </script>
 @endpush

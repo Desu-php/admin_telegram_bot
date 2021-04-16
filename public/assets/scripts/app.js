@@ -65,11 +65,15 @@ if (typeof(orderColumn) === "undefined"){
     var orderColumn = 0
 }
 
+if (typeof(order) === "undefined"){
+    var order = "asc"
+}
+
 if (typeof (columns) !== "undefined") {
     $(function () {
 
         var table = $('#dataTable').DataTable({
-            order:[[orderColumn, "asc"]],
+            order:[[orderColumn, order]],
             responsive:true,
             ajax: url,
             searching: true,
