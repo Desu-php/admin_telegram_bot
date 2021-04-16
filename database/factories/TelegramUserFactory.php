@@ -27,7 +27,7 @@ class TelegramUserFactory extends Factory
         $status = ['вошел', 'вышел'];
         return [
             //
-            'user_id' => $this->faker->text(200),
+            'user_id' => $this->faker->word,
             'main_channel_id' => MainChannel::all()->random(),
             'status' => $status[rand(0,1)],
             'first_name' => $this->faker->firstName,
@@ -35,6 +35,11 @@ class TelegramUserFactory extends Factory
             'avatar' => $this->faker->firstName,
             'advertisings' => $this->faker->name,
             'username' => $this->faker->userName,
+            'bot' => $this->faker->word,
+            'user_status' => $this->faker->word,
+            'scam' => $this->faker->word,
+            'resricted' => $this->faker->word,
+            'restriction_reason' => $this->faker->word,
 
         ];
     }

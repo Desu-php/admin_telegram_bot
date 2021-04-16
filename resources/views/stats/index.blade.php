@@ -37,6 +37,21 @@
                             <th scope="col" class="border-0">Дата и время
                                 <input class="form-control filtered" data-column="8">
                             </th>
+                            <th scope="col" class="border-0">status
+                                <input class="form-control filtered" data-column="9">
+                            </th>
+                            <th scope="col" class="border-0">scam
+                                <input class="form-control filtered" data-column="10">
+                            </th>
+                            <th scope="col" class="border-0">resricted
+                                <input class="form-control filtered" data-column="11">
+                            </th>
+                            <th scope="col" class="border-0">restriction_reason
+                                <input class="form-control filtered" data-column="12">
+                            </th>
+                            <th scope="col" class="border-0">bot
+                                <input class="form-control filtered" data-column="13">
+                            </th>
                         </tr>
                         </thead>
                     </table>
@@ -57,6 +72,11 @@
             { data: "status", name: 'status'},
             { data: "advertisings", name: 'advertisings'},
             { data: "created_at", name: 'created_at'},
+            { data: "user_status", name: 'user_status'},
+            { data: "scam", name: 'scam'},
+            { data: "resricted", name: 'resricted'},
+            { data: "restriction_reason", name: 'restriction_reason'},
+            { data: "bot", name: 'bot'},
         ]
         var url = "{{route('stats.indexAjax', 'channel='.request()->get('channel'))}}"
         var orderColumn = 8
