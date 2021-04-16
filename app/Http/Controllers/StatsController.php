@@ -61,7 +61,7 @@ class StatsController extends Controller
               $color =  ['вышел' => 'danger', 'вошел' => 'success'];
               return "<span class='text-".$color[$data->status]."'>$data->status</span>";
             })
-            ->rawColumns(['avatar'])
+            ->rawColumns(['avatar', 'status'])
             ->escapeColumns(null)
             ->make(true);
     }
