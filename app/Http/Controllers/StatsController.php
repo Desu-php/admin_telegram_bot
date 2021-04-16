@@ -57,6 +57,10 @@ class StatsController extends Controller
             ->editColumn('created_at', function ($data) {
                 return $data->created_at->format('d.m.Y H:i:s');
             })
+            ->editColumn('status', function ($data){
+              $color =  ['вышел' => 'danger', 'вошел' => 'success'];
+              return "<span class='text-".$color[$data->status]."'>$data->status</span>";
+            })
             ->rawColumns(['avatar'])
             ->escapeColumns(null)
             ->make(true);
