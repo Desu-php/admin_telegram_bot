@@ -55,11 +55,20 @@ class StatsController extends Controller
                 }
             })
             ->editColumn('created_at', function ($data) {
-                return $data->created_at->format('d.m.Y H:i:s');
+                return $data->created_at->format('Y-m-d H:i:s');
             })
             ->editColumn('status', function ($data){
               $color =  ['вышел' => 'danger', 'вошел' => 'success'];
               return "<span class='text-".$color[$data->status]."'>$data->status</span>";
+            })
+            ->editColumn('advertisings', function ($data){
+              $char = mb_substr($data->advertisings, mb_strlen($data->advertisings) - 1);
+              if ($char == ','){
+                  return mb_substr($data->advertisings, 0, mb_strlen($data->advertisings) - 1);
+              }else{
+                  return  $data->advertisings;
+              }
+
             })
             ->rawColumns(['avatar', 'status'])
             ->escapeColumns(null)
