@@ -7,6 +7,7 @@ use App\Models\Channel;
 use App\Models\MainChannel;
 use App\Models\TelegramUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -168,11 +169,18 @@ class AdvertisingController extends Controller
         ]);
 
         if ($request->has('changed')) {
-            TelegramUser::whereDate('created_at', '<=', $request->end_date)
-                ->whereDate('created_at', '>=', $request->start_date)
+            $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+            $end_time = Carbon::parse($request->end_date)->format('H:i:s');
+            $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+            $start_time = Carbon::parse($request->start_date)->format('H:i:s');
+
+            TelegramUser::whereDate('created_at', '<=', $end_date)
+                ->whereTime('created_at', '<=', $end_time)
+                ->whereDate('created_at', '>=', $start_date)
+                ->whereTime('created_at', '>=', $start_time)
                 ->where('main_channel_id', $request->main_channel)
                 ->update([
-                    'advertisings' => $request->name
+                    'advertisings' => $request->name,
                 ]);
         }
 
