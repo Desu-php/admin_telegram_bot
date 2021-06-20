@@ -9,6 +9,7 @@ use App\Models\TelegramUser;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -169,15 +170,22 @@ class AdvertisingController extends Controller
         ]);
 
         if ($request->has('changed')) {
-            $end_date = Carbon::parse($request->end_date)->format('Y-m-d H:i:s');
-            $start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
+            $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+            $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+            $end_timestamp = Carbon::parse($request->end_date)->timestamp;
+            $start_timestamp = Carbon::parse($request->start_date)->timestamp;
 
-            TelegramUser::whereDate('created_at', '<=', $end_date)
+            $tg = TelegramUser::whereDate('created_at', '<=', $end_date)
                 ->whereDate('created_at', '>=', $start_date)
                 ->where('main_channel_id', $request->main_channel)
-                ->update([
-                    'advertisings' => $request->name,
-                ]);
+                ->get();
+
+            foreach ($tg as $value) {
+                if ($value->created_at->timestamp <= $end_timestamp && $value->created_at->timestamp >= $start_timestamp) {
+                    $value->advertisings = $request->name;
+                    $value->save();
+                }
+            }
         }
 
         return Response()->json([
