@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertising;
 use App\Models\Channel;
 use App\Models\MainChannel;
+use App\Models\TelegramUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -67,23 +68,33 @@ class AdvertisingController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'main_channel' => 'required|exists:main_channels,id',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'changed' => 'nullable|boolean'
         ]);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return Response()->json([
                 'success' => false,
                 'errors' => $validator->getMessageBag()
             ], 400);
         }
 
-        Advertising::create([
+        $advertising = Advertising::create([
             'channel_name' => $request->channel_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'main_channel_id' => $request->main_channel,
             'name' => $request->name,
         ]);
+
+        if ($request->has('changed')) {
+            TelegramUser::whereDate('created_at', '<=', $request->end_date)
+                ->whereDate('created_at', '>=', $request->start_date)
+                ->where('main_channel_id', $advertising->main_channel_id)
+                ->update([
+                    'advertisings' => $request->name
+                ]);
+        }
 
         return Response()->json([
             'success' => true,
@@ -114,11 +125,11 @@ class AdvertisingController extends Controller
         $mainChannels = MainChannel::all();
         $data = Advertising::find($id);
 
-        if (empty($data)){
+        if (empty($data)) {
             abort(404);
         }
 
-        return view('advertisings.edit', compact('data',  'mainChannels'));
+        return view('advertisings.edit', compact('data', 'mainChannels'));
     }
 
     /**
@@ -137,23 +148,33 @@ class AdvertisingController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'main_channel' => 'required|exists:main_channels,id',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'changed' => 'nullable|boolean'
         ]);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return Response()->json([
                 'success' => false,
                 'errors' => $validator->getMessageBag()
             ], 400);
         }
 
-        Advertising::where('id', $id)->update([
+        $advertising = Advertising::where('id', $id)->update([
             'channel_name' => $request->channel_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'main_channel_id' => $request->main_channel,
             'name' => $request->name,
         ]);
+
+        if ($request->has('changed')) {
+            TelegramUser::whereDate('created_at', '<=', $request->end_date)
+                ->whereDate('created_at', '>=', $request->start_date)
+                ->where('main_channel_id', $request->main_channel)
+                ->update([
+                    'advertisings' => $request->name
+                ]);
+        }
 
         return Response()->json([
             'success' => true,

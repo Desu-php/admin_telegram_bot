@@ -26,12 +26,16 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="start_date">Начальная дата</label>
-                                <input type="text" class="form-control" id="start_date" name="start_date" placeholder="Начальная дата" value="" required>
+                                <input type="text" autocomplete="false" class="form-control" id="start_date" name="start_date" placeholder="Начальная дата" value="" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="end_date">Конечная дата</label>
-                                <input type="text" class="form-control" id="end_date" name="end_date" placeholder="Конечная дата" value="" required>
+                                <input type="text" autocomplete="false" class="form-control" id="end_date" name="end_date" placeholder="Конечная дата" value="" required>
                             </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input name="changed" type="checkbox" value="1" class="form-check-input" id="changed">
+                            <label class="form-check-label"  for="changed">Привязать пользователей</label>
                         </div>
                         <button type="submit" class="btn btn-success">Добавить</button>
                     </form>

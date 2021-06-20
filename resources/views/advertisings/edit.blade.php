@@ -44,6 +44,10 @@
                                        placeholder="Конечная дата" value="{{$data->end_date}}" required>
                             </div>
                         </div>
+                        <div class="form-check mb-3">
+                            <input name="changed" type="checkbox" value="1" class="form-check-input" id="changed">
+                            <label class="form-check-label"  for="changed">Привязать пользователей</label>
+                        </div>
                         <button type="submit" class="btn btn-success">Добавить</button>
                     </form>
                 </div>
