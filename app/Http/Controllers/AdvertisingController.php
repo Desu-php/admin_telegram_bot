@@ -89,14 +89,7 @@ class AdvertisingController extends Controller
             'name' => $request->name,
         ]);
 
-        if ($request->has('changed')) {
-            TelegramUser::whereDate('created_at', '<=', $request->end_date)
-                ->whereDate('created_at', '>=', $request->start_date)
-                ->where('main_channel_id', $advertising->main_channel_id)
-                ->update([
-                    'advertisings' => $request->name
-                ]);
-        }
+        $this->updateAdds($request);
 
         return Response()->json([
             'success' => true,
@@ -169,24 +162,7 @@ class AdvertisingController extends Controller
             'name' => $request->name,
         ]);
 
-        if ($request->has('changed')) {
-            $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
-            $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
-            $end_timestamp = Carbon::parse($request->end_date)->timestamp;
-            $start_timestamp = Carbon::parse($request->start_date)->timestamp;
-
-            $tg = TelegramUser::whereDate('created_at', '<=', $end_date)
-                ->whereDate('created_at', '>=', $start_date)
-                ->where('main_channel_id', $request->main_channel)
-                ->get();
-
-            foreach ($tg as $value) {
-                if ($value->created_at->timestamp <= $end_timestamp && $value->created_at->timestamp >= $start_timestamp) {
-                    $value->advertisings = $request->name;
-                    $value->save();
-                }
-            }
-        }
+        $this->updateAdds($request);
 
         return Response()->json([
             'success' => true,
@@ -205,5 +181,27 @@ class AdvertisingController extends Controller
         //
         $data = Advertising::destroy($id);
         return Response()->json($data);
+    }
+
+    private function updateAdds($request)
+    {
+        if ($request->has('changed')) {
+            $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+            $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+            $end_timestamp = Carbon::parse($request->end_date)->timestamp;
+            $start_timestamp = Carbon::parse($request->start_date)->timestamp;
+
+            $tg = TelegramUser::whereDate('created_at', '<=', $end_date)
+                ->whereDate('created_at', '>=', $start_date)
+                ->where('main_channel_id', $request->main_channel)
+                ->get();
+
+            foreach ($tg as $value) {
+                if ($value->created_at->timestamp <= $end_timestamp && $value->created_at->timestamp >= $start_timestamp) {
+                    $value->advertisings = $request->name;
+                    $value->save();
+                }
+            }
+        }
     }
 }
